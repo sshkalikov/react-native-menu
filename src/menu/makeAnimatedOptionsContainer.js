@@ -1,12 +1,12 @@
 module.exports = (React, ReactNative) => {
   const { Animated } = ReactNative;
-  const TimerMixin = require('react-timer-mixin');
+  const TimerMixin = require("react-timer-mixin");
 
   // A component that scales in when mounted.
   const AnimatedOptionsContainer = React.createClass({
     mixins: [TimerMixin],
     getInitialState() {
-      return { scaleAnim: new Animated.Value(0.001) };
+      return { scaleAnim: new Animated.Value(0.1) };
     },
     componentDidMount() {
       this.setTimeout(() => {
@@ -18,8 +18,13 @@ module.exports = (React, ReactNative) => {
     },
     render() {
       return (
-        <Animated.View style={[this.props.style, { transform: [ { scale: this.state.scaleAnim } ] }]}>
-          { this.props.children }
+        <Animated.View
+          style={[
+            this.props.style,
+            { transform: [{ scale: this.state.scaleAnim }] }
+          ]}
+        >
+          {this.props.children}
         </Animated.View>
       );
     }
