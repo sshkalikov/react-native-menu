@@ -8,7 +8,7 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
     TouchableWithoutFeedback,
     ScrollView,
     View,
-    BackAndroid
+    BackHandler
   } = ReactNative;
   const AnimatedOptionsContainer = require("./makeAnimatedOptionsContainer")(
     React,
@@ -162,11 +162,11 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
       }
 
       if (this.props.detectBackAndroid) {
-        BackAndroid.removeEventListener(
+        BackHandler.removeEventListener(
           "hardwareBackPress",
           this.handleBackAndroid
         ); //Override previous listener
-        BackAndroid.addEventListener(
+        BackHandler.addEventListener(
           "hardwareBackPress",
           this.handleBackAndroid
         );
