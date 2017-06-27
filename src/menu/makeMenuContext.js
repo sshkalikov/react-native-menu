@@ -8,7 +8,7 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
     TouchableWithoutFeedback,
     ScrollView,
     View,
-    BackAndroid
+    BackHandler
   } = ReactNative;
   const AnimatedOptionsContainer = require("./makeAnimatedOptionsContainer")(
     React,
@@ -26,20 +26,23 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
     };
   };
 
-  const defaultOptionsContainerRenderer = options => (
+  const defaultOptionsContainerRenderer = options =>
     <ScrollView>
       {options}
-    </ScrollView>
-  );
+    </ScrollView>;
 
-  const makeOptions = (options, { top, right }) => {
+  const makeOptions = (options, { top, right, left, width }) => {
     const {
       optionsContainerStyle,
       renderOptionsContainer = defaultOptionsContainerRenderer
     } = options.props;
     return (
       <AnimatedOptionsContainer
-        style={[styles.optionsContainer, optionsContainerStyle, { top, right }]}
+        style={[
+          styles.optionsContainer,
+          optionsContainerStyle,
+          { top, right, left, width }
+        ]}
       >
         {renderOptionsContainer(options)}
       </AnimatedOptionsContainer>
@@ -162,11 +165,11 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
       }
 
       if (this.props.detectBackAndroid) {
-        BackAndroid.removeEventListener(
+        BackHandler.removeEventListener(
           "hardwareBackPress",
           this.handleBackAndroid
         ); //Override previous listener
-        BackAndroid.addEventListener(
+        BackHandler.addEventListener(
           "hardwareBackPress",
           this.handleBackAndroid
         );
@@ -202,7 +205,7 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
       const options = this._options[name];
       const { w: menuWidth, px: menuPX, py: menuPY } = menuMeasurements;
       const { w: ownWidth, px: ownPX, py: ownPY } = this._ownMeasurements;
-      const optionsTop = menuPY - ownPY;
+      const optionsTop = menuPY - ownPY + 30;
 
       const horizontalAlignmentType = this._options[name].props.align === "left"
         ? "left"
@@ -211,10 +214,10 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
       const horizontalAlignment = horizontalAlignmentType === "left"
         ? menuPX
         : optionsRight;
-
       return makeOptions(options, {
         top: optionsTop,
-        [horizontalAlignmentType]: horizontalAlignment
+        [horizontalAlignmentType]: horizontalAlignment,
+        width: menuMeasurements.w
       });
     },
 
