@@ -27,19 +27,21 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
   };
 
   const defaultOptionsContainerRenderer = options => (
-    <ScrollView>
-      {options}
-    </ScrollView>
+    <ScrollView>{options}</ScrollView>
   );
 
-  const makeOptions = (options, { top, right }) => {
+  const makeOptions = (options, { top, right, left, width }) => {
     const {
       optionsContainerStyle,
       renderOptionsContainer = defaultOptionsContainerRenderer
     } = options.props;
     return (
       <AnimatedOptionsContainer
-        style={[styles.optionsContainer, optionsContainerStyle, { top, right }]}
+        style={[
+          styles.optionsContainer,
+          optionsContainerStyle,
+          { top, right, left, width }
+        ]}
       >
         {renderOptionsContainer(options)}
       </AnimatedOptionsContainer>
@@ -201,29 +203,32 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
     _makeAndPositionOptions(name, menuMeasurements) {
       const options = this._options[name];
       const { w: menuWidth, px: menuPX, py: menuPY } = menuMeasurements;
-      const { w: ownWidth, px: ownPX, py: ownPY } = this._ownMeasurements;
-      const optionsTop = menuPY - ownPY;
-
-      const horizontalAlignmentType = this._options[name].props.align === "left"
-        ? "left"
-        : "right";
+      const {
+        w: ownWidth,
+        px: ownPX,
+        py: ownPY,
+        h: maxPosition
+      } = this._ownMeasurements;
+      let optionsTop = menuPY - ownPY + 20;
+      if (menuPY + 230 > maxPosition) {
+        optionsTop = maxPosition - 205;
+      }
+      const horizontalAlignmentType =
+        this._options[name].props.align === "left" ? "left" : "right";
       const optionsRight = ownWidth + ownPX - menuPX - menuWidth;
-      const horizontalAlignment = horizontalAlignmentType === "left"
-        ? menuPX
-        : optionsRight;
-
+      const horizontalAlignment =
+        horizontalAlignmentType === "left" ? menuPX : optionsRight;
       return makeOptions(options, {
         top: optionsTop,
-        [horizontalAlignmentType]: horizontalAlignment
+        [horizontalAlignmentType]: horizontalAlignment,
+        width: menuMeasurements.w
       });
     },
 
     render() {
       return (
         <View ref="Container" onLayout={this.onLayout} style={{ flex: 1 }}>
-          <View style={this.props.style}>
-            {this.props.children}
-          </View>
+          <View style={this.props.style}>{this.props.children}</View>
           <TouchableWithoutFeedback onPress={this.closeMenu}>
             <View
               style={[
@@ -242,3 +247,4 @@ module.exports = (React, ReactNative, { constants, model, styles }) => {
 
   return MenuContext;
 };
+
