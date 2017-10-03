@@ -14,6 +14,12 @@ The API is very flexible so you are free to extend the styling and behaviour.
 $ npm install react-native-menu --save
 ```
 
+Or with yarn:
+
+```
+$ yarn add react-native-menu
+```
+
 ## Demo
 
 | iOS | Android |
@@ -114,7 +120,7 @@ Methods:
 Props:
 
 
-- 'detectBackAndroid' -- If true, menu context detects an Android hardware back press, closes menu and stops it from propagating and potentially causing bugs. (Default: true)
+- 'detectBackHandler' -- If true, menu context detects an Android hardware back press, closes menu and stops it from propagating and potentially causing bugs. (Default: true)
 - `style` -- Overrides default style properties (user-defined style will take priority)
 - `onCloseMenu` -- Handler that will be called with the state of `MenuContext`, if defined.
 
@@ -162,6 +168,10 @@ Props:
 
 ## Latest Changes
 
+### 0.23.0
+
+- Compatible with latest react-native version. Thanks to all the people who submitted a PR! ([@amensouissi](https://github.com/amensouissi), [SkipperEl](https://github.com/SkipperEl))
+
 ### 0.20.1
 
 - Changed menu elevation as per [material design spec](https://material.google.com/what-is-material/elevation-shadows.html) (thanks [@heydabop](https://github.com/heydabop)!)
@@ -196,13 +206,13 @@ Props:
 Install dev modules:
 
 ```
-npm install
+yarn
 ```
 
 ### Run unit tests
 
 ```
-npm run test:unit
+yarn test:unit
 ```
 
 ### Run integration tests
@@ -210,7 +220,7 @@ npm run test:unit
 Make sure you have a connected android device. You find list devices using `adb devices`.
 
 ```
-npm run test:integration
+yarn test:integration
 ```
 
 ## Contributing
