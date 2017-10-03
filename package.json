@@ -1,8 +1,6 @@
 {
   "name": "q-react-native-menu",
-  "version": "0.21.1",
+  "version": "0.21.3",
   "description": "A flexible dropdown menu component for Android and iOS that is similar to Android's Spinner.",
-  "repository": "https://github.com/jaysoo/react-native-menu",
-  "author": "Jack Hsu <jack.hsu@gmail.com> (http://jaysoo.ca/)",
-  "license": "ISC"
+  "repository": "https://github.com/sshkalikov/react-native-menu"
 }
